@@ -6,7 +6,7 @@ const app = new Hono();
 app.get('/search/:searchText', async (c) => {
   const txt = c.req.param('searchText');
   const search = await Scrapping.search(txt);
-  return c.json({ txt });
+  return c.json({ txt: search });
 });
 
 export default app;

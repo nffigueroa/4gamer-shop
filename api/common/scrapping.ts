@@ -1,55 +1,41 @@
 import * as cheerio from 'cheerio';
-import { SEARCH_TXT_KEYWORD, STORES } from '../const/stores';
+import { SEARCH_TXT_KEYWORD, STORES, STORES_LIST } from '../const/stores';
 
 export const Scrapping = {
   async loadHtml(uri: string) {
     const res = await fetch(uri);
-    console.log(uri);
 
     const content = await res.text();
 
     return cheerio.load(content);
   },
-  searchTitle(elements: any, txt: string) {
-    let productName = '';
-    if (
-      elements?.attributes[0]?.value.includes(txt) &&
-      productName.length < elements?.attributes[0]?.value.length &&
-      elements.tagName !== 'img'
-    ) {
-      productName = elements?.attributes[0]?.value;
-    }
-    return productName;
-  },
-  searchPrice(elements: any) {
-    let productPrice = '';
-    const reg = new RegExp(/^-?\d+\.?\d*$/);
-    if (['span', 'div'].includes(elements.tagName)) {
-      productPrice = elements?.attributes[0]?.value;
-    }
-    return productPrice;
-  },
   async search(txt: string) {
+    let productList = [];
     try {
-      const { loadHtml, searchTitle, searchPrice } = Scrapping;
+      const { loadHtml } = Scrapping;
       const stores = STORES;
+      for (let index = 0; index < stores.length; index++) {
+        const {
+          scrapper,
+          urlStore,
+          name,
+          queryEnable,
+          enableScrapping,
+          scrapping: { title, price, image },
+        } = stores[index];
+        if (queryEnable && enableScrapping) {
+          const $ = await loadHtml(urlStore.replace(SEARCH_TXT_KEYWORD, txt));
+          console.log('Entrando al scrapper', name);
+          console.log($('h2.ui-search-item__title').html());
 
-      const $ = await loadHtml(stores[2].url.replace(SEARCH_TXT_KEYWORD, txt));
-      const elements = $('body').children();
-      console.log($('body')[0].children, 'lelelelelelele');
-
-      let productName = '';
-      let productPrice = '';
-      for (let index = 0; index < elements.length; index++) {
-        productName = searchTitle(elements[index], txt)
-          ? searchTitle(elements[index], txt)
-          : productName;
-        productPrice = searchPrice(elements[index])
-          ? searchPrice(elements[index])
-          : productPrice;
+          productList.push(
+            scrapper($, title, price, image, name as STORES_LIST)
+          );
+        }
       }
+      return productList;
     } catch (error) {
-      console.log(error, 'Errororororo');
+      console.log(error);
     }
   },
 };
