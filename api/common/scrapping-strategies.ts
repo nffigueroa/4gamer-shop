@@ -1,11 +1,13 @@
 import { STORES, STORES_LIST } from '../const/stores';
-import { Product, Store } from '../model/product';
+import { Product, Store, StoreScrapping } from '../model/product';
+import { logError, logInfo } from './log';
 
 export const initializeProductPayload = (): Product => {
   return {
     name: '',
     price: '',
     image: '',
+    itemUrl: '',
     seller: {
       name: '',
       url: '',
@@ -16,68 +18,63 @@ export const initializeProductPayload = (): Product => {
 
 export const scrapper = (
   $: any,
-  titleScrapping: string,
-  priceScrapping: string,
-  imageScrapping: string,
+  storeScrapping: StoreScrapping,
   storeName: STORES_LIST
 ): Product[] => {
   try {
-    console.log(
-      '********************Iniciando Scrapping de ',
-      storeName,
-      titleScrapping
-    );
+    const { title, price, image, url } = storeScrapping;
+    const { urlDomain } = STORES.find(
+      (item: Store) => item.name === storeName
+    ) as Store;
 
     let productList: Product[] = [];
     let product: Product = initializeProductPayload();
 
-    $(titleScrapping).each(function (index: number, element: any) {
-      console.log($(element).text());
-
+    $(title).each(function (index: number, element: any) {
       product = initializeProductPayload();
       product.name = String($(element).text());
 
       product.seller.name = String(storeName);
-      product.seller.url = STORES.find(
-        (item: Store) => item.name === storeName
-      )?.urlDomain;
+      product.seller.url = urlDomain;
       productList.push(product);
     });
-    let indexProductCount = 0;
-    console.log('Calcular Precios');
-
-    $(priceScrapping).each(function (index: number, element: any) {
+    logInfo('********************Titles scrapped');
+    let countProductList = 0;
+    $(price).each(function (index: number, element: any) {
       const price = $(element)
         .text()
         .trim()
         .replace('$', '')
         .replace(/,/g, '')
         .replace(/\./g, '')
+        .replace('pesos', '')
         .replace('COP', '');
-      console.log(price);
-
-      if (Number(price) && indexProductCount <= productList.length - 1) {
-        productList[indexProductCount].price = price;
-        indexProductCount++;
+      if (Number(price) && countProductList <= productList.length - 1) {
+        productList[countProductList].price = price;
+        countProductList++;
       }
     });
-    return productList;
-  } catch (error) {
-    console.log('*****************', error, storeName);
-    return [];
-  }
-};
+    logInfo('********************Url scrapped');
 
-export const scrapImages = ($: any, imageKey: string): string[] => {
-  console.log($(imageKey).html());
+    $(url).each(function (index: number, item: any) {
+      let url = $(item).attr('href');
+      url = url.includes('.com') ? url : `${urlDomain}${url}`;
+      productList[index].itemUrl = url;
+    });
+    logInfo('********************Url scrapped');
 
-  let imageBase64 = [];
-  $(imageKey)
-    .html()
-    .each((item: any) => {
-      console.log($(item).text());
-      /* imageBase64.push($(item).text()); */
+    $(image).each(function (index: number, item: any) {
+      const image = $(item).attr('data-src') || $(item).attr('src');
+      productList[index].image = image;
     });
 
-  return [];
+    logInfo('********************Images scrapped');
+
+    return productList;
+  } catch (error) {
+    logError(`**************** ${error} ${storeName} ****************`);
+    return [];
+  } finally {
+    logInfo(`**************** Scrapping for ${storeName} done`);
+  }
 };

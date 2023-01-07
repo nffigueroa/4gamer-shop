@@ -4,11 +4,24 @@ export interface Product {
   name: string;
   price: string;
   image: string;
+  itemUrl: string;
   seller: {
     name: string;
     url?: string;
   };
   offer?: boolean;
+}
+
+export interface StoreScrapping {
+  title: string;
+  price: string;
+  image: string;
+  url: string;
+}
+
+export interface SearchResponse {
+  store: string;
+  results: Product[];
 }
 
 export interface Store {
@@ -17,16 +30,10 @@ export interface Store {
   urlStore: string;
   queryEnable: boolean;
   enableScrapping: boolean;
-  scrapping: {
-    title: string;
-    price: string;
-    image: string;
-  };
+  scrapping: StoreScrapping;
   scrapper: (
     $: any,
-    titleScrapping: string,
-    priceScrapping: string,
-    imageScrapping: string,
+    storeCrapping: StoreScrapping,
     storeName: STORES_LIST
   ) => Product[];
 }
