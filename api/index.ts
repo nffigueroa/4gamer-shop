@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { Scrapping } from './common';
+import { Scrapping } from '../src/common';
 
 const app = new Hono();
 

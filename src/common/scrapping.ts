@@ -5,6 +5,7 @@ import { logInfo } from './log';
 
 export const Scrapping = {
   async loadHtml(uri: string) {
+    logInfo(`Scrapping aiming to ${uri}`);
     const res = await fetch(uri);
 
     const content = await res.text();
@@ -27,13 +28,16 @@ export const Scrapping = {
           enableScrapping,
           scrapping: { title, price, image, url },
         } = stores[index];
-        if (queryEnable && enableScrapping) {
-          const $ = await loadHtml(urlStore.replace(SEARCH_TXT_KEYWORD, txt));
+        if (enableScrapping) {
+          const $ = await loadHtml(
+            queryEnable ? urlStore.replace(SEARCH_TXT_KEYWORD, txt) : urlStore
+          );
           logInfo(`Starting scrapping for  ${name}`);
           response[index].results = scrapper(
             $,
             { title, price, image, url },
-            name as STORES_LIST
+            name as STORES_LIST,
+            txt
           );
         }
       }

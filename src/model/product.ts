@@ -13,8 +13,8 @@ export interface Product {
 }
 
 export interface StoreScrapping {
-  title: string;
-  price: string;
+  title: string[] | string;
+  price: string[] | string;
   image: string;
   url: string;
 }
@@ -22,18 +22,4 @@ export interface StoreScrapping {
 export interface SearchResponse {
   store: string;
   results: Product[];
-}
-
-export interface Store {
-  name: string;
-  urlDomain?: string;
-  urlStore: string;
-  queryEnable: boolean;
-  enableScrapping: boolean;
-  scrapping: StoreScrapping;
-  scrapper: (
-    $: any,
-    storeCrapping: StoreScrapping,
-    storeName: STORES_LIST
-  ) => Product[];
 }
