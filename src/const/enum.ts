@@ -5,4 +5,6 @@ export enum ICON_TYPE {
   ARROW_UP = 'ArrowUpIcon',
   ARROW_DOWN = 'ArrowDownIcon',
   HAMBURGER = 'HamburgerIcon',
+  LOCATION = 'LocationIcon',
+  LOOKUP = 'LookupIcon',
 }

@@ -5,12 +5,14 @@ module.exports = {
     extend: {
       colors: {
         purple: {
-          1000: '#170E2B'
+          1000: '#170E2B',
+          1100: '#20192C'
         }
       },
       transitionProperty: {
         height: 'height',
-        padding: 'padding'
+        padding: 'padding',
+        'max-height': 'max-height'
       },
       fontFamily: {
         title: 'RobotoBold'

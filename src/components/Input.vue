@@ -1,27 +1,34 @@
 <template>
   <div class="relative">
-    <img :src="lookup" class="absolute left-1 top-2 text-xs z-10 opacity-50" />
+    <Icon
+      :icon="lookup"
+      :fill="'white'"
+      class="w-8 h1-8 absolute left-2 top-3 text-xs opacity-50 z-10"
+    />
     <input
       type="text"
-      class="rounded absolute h-10 w-full bg-gray-700 pl-10 text-lg text-white"
-      @input="$emit('searchText')"
+      class="rounded h-10 w-full bg-gray-700 pl-10 text-lg text-white z-0"
+      @input="handleInputTxt"
     />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, defineEmits } from 'vue';
-import Lookup from '../icons/lookup.svg';
+import { ICON_TYPE } from '../const/enum';
+import Icon from '../icons/Icon.vue';
+
 export default defineComponent({
-  setup(props: { callback: (txt: any) => Event }) {
-    const { callback } = props;
-    const emitText = defineEmits(['searchText']);
-    console.log(props);
-    const handleInputTxt = (event: Event) => {
-      console.log(callback);
-      callback(event);
+  components: {
+    Icon,
+  },
+
+  setup(_props, ctx) {
+    const inputTxt = '';
+    const handleInputTxt = (event: Event | any) => {
+      ctx.emit('searchText', event.target?.value);
     };
 
-    return { lookup: Lookup, handleInputTxt, emitText };
+    return { lookup: ICON_TYPE.LOOKUP, handleInputTxt, inputTxt };
   },
 });
 </script>

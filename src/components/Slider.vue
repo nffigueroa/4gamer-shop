@@ -6,6 +6,7 @@
       v-for="(item, index) in sliderValues"
       :key="index"
       @click="handleSliderSelection(index)"
+      class="w-1/2 text-center"
     >
       {{ item }}
     </div>

@@ -48,7 +48,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.TIERRA_GAMER_MEDELLIN,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://www.tiendagamermedellin.co',
     urlStore: 'https://www.tiendagamermedellin.co/search?q={searchText}',
     queryEnable: true,

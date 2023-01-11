@@ -5,11 +5,18 @@
 </template>
 <script>
 import { defineComponent } from 'vue';
+import ArgentinaIcon from './ArgentinaIcon.vue';
 import ArrowDownIcon from './ArrowDownIcon.vue';
 import ArrowUpIcon from './ArrowUpIcon.vue';
+import ChileIcon from './ChileIcon.vue';
 import CloseIcon from './CloseIcon.vue';
+import ColombiaIcon from './ColombiaIcon.vue';
 import HamburgerIcon from './HamburgerIcon.vue';
+import LocationIcon from './LocationIcon.vue';
 import LogoIcon from './LogoIcon.vue';
+import LookupIcon from './LookupIcon.vue';
+import MexicoIcon from './MexicoIcon.vue';
+import PeruIcon from './PeruIcon.vue';
 import StoreIcon from './StoreIcon.vue';
 
 export default defineComponent({
@@ -22,6 +29,13 @@ export default defineComponent({
     ArrowDownIcon,
     ArrowUpIcon,
     HamburgerIcon,
+    ArgentinaIcon,
+    MexicoIcon,
+    PeruIcon,
+    ChileIcon,
+    ColombiaIcon,
+    LocationIcon,
+    LookupIcon,
   },
   setup() {
     return {};

@@ -1,8 +1,7 @@
 ---
 import MainLayout from '../layouts/Main.astro';
-import InputComponent from '../components/Input.vue';
 import HeaderComponent from '../components/Header.vue';
-import FloatMenu from '../components/FloatMenu.vue';
+import SearchResults from '../components/SearchResults.vue';
 ---
 
 <MainLayout title='Welcome to Astro.'>
@@ -10,8 +9,7 @@ import FloatMenu from '../components/FloatMenu.vue';
     <HeaderComponent client:visible />
   </header>
   <main>
-    <InputComponent client:only='vue' />
-    <FloatMenu client:only='vue' />
+    <SearchResults client:only='vue' />
   </main>
 </MainLayout>
 
