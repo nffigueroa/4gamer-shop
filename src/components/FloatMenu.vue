@@ -2,23 +2,18 @@
   <div :class="`fixed z-10 top-0 left-0 ${templateHeight}`">
     <div
       class="pt-10 transition-transform delay-75 h-screen w-screen p-4 rounded bg-purple-1000 text-white overflow-hidden"
-      :style="menuStyleTransition"
-    >
-      <Slider :sliderValues="['Mayor Precio', 'Menor Precio']" :leftOptionSelected="$lowerPriceFirst" />
+      :style="menuStyleTransition">
+      <Slider @handleSliderClicked="handleSliderClicked" :sliderValues="['Menor Precio', 'Mayor Precio']"
+        :leftOptionSelected="$orderByPrice" />
       <Accordion :items="accordionItems">
         <template v-slot:countries>
-          <div
-            v-for="(item, index) in countries"
-            :key="index"
+          <div v-for="(item, index) in countries" :key="index"
             class="flex ml-16 align-middle items-center w-full border-l border-gray-400"
-            @click="handleLabelSelectedCountry(index)"
-          >
-            <p
-              :class="`text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto ${selectedStyle(
-                index,
-                'country'
-              )} flex align-middle content-center`"
-            >
+            @click="handleLabelSelectedCountry(index)">
+            <p :class="`text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto ${selectedStyle(
+              index,
+              'country'
+            )} flex align-middle content-center`">
               {{ item.name }}
             </p>
 
@@ -26,21 +21,13 @@
           </div>
         </template>
         <template v-slot:stores>
-          <div
-            v-if="search"
-            v-for="(item, index) in search"
-            :key="index"
-            :id="`${index}`"
-            class="flex ml-16 align-middle items-center w-full border-l border-gray-400"
-          >
-            <p
-              @click="handleLabelSelectedStore"
-              :class="['text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto flex align-middle content-center', {'rounded-lg bg-slate-700 text-white': item.selected}]"
-              :key="index + 'store'"
-              :id="`${index}`"
-            >
+          <div v-if="search" v-for="(item, index) in search" :key="index" :id="`${index}`"
+            class="flex ml-16 align-middle items-center w-full border-l border-gray-400">
+            <p @click="handleLabelSelectedStore"
+              :class="['text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto flex align-middle content-center', { 'rounded-lg bg-slate-700 text-white': item.selected }]"
+              :key="index + 'store'" :id="`${index}`">
               {{ item.store }}
-              <p class="text-gray-400 text-xs m-auto pl-1">({{item.results?.length}})</p>
+            <p class="text-gray-400 text-xs m-auto pl-1">({{ item.results?.length }})</p>
             </p>
           </div>
         </template>
@@ -48,16 +35,9 @@
     </div>
     <!-- FLoating Icon -->
     <div class="m-auto z-10">
-      <div
-        class="absolute top-0 right-2 m-auto w-11 h-11 rounded-full text-white z-10"
-        style="margin-right: 0"
-      >
-        <Icon
-          :fill="'white'"
-          class="w-11 h-11 fixed -right-2 z-10"
-          :icon="showCloseOrStoreIcon"
-          @click="handleMenuClick"
-        />
+      <div class="absolute top-0 right-2 m-auto w-11 h-11 rounded-full text-white z-10" style="margin-right: 0">
+        <Icon :fill="'white'" class="w-11 h-11 fixed -right-2 z-10" :icon="showCloseOrStoreIcon"
+          @click="handleMenuClick" />
       </div>
     </div>
   </div>
@@ -69,8 +49,8 @@ import { ICON_TYPE } from '../const/enum';
 import { COUNTRIES } from '../const/countries';
 import Slider from './Slider.vue';
 import Accordion from './Accordion.vue';
-import { lowerPriceFirst, searchResults, storeIndexSelected } from '../store/results.store';
-import { useStore }from '@nanostores/vue';
+import { orderByPrice, searchResults, storeIndexSelected } from '../store/results.store';
+import { useStore } from '@nanostores/vue';
 import { SearchResults } from '../model/product';
 
 export default defineComponent({
@@ -85,7 +65,7 @@ export default defineComponent({
     const indexCountrySelected = ref();
     const storesResults = ref<SearchResults[]>([]);
     const $searchResults = useStore(searchResults);
-    const $lowerPriceFirst = useStore(lowerPriceFirst);
+    const $orderByPrice = useStore(orderByPrice);
     const accordionItems = reactive([
       {
         section: 'countries',
@@ -106,19 +86,23 @@ export default defineComponent({
         open: false,
       },
     ]);
-    
 
+    const handleSliderClicked = (index: number) => {
+      console.log('Se guardo', Boolean(index));
+
+      orderByPrice.set(Boolean(index));
+    }
     const handleLabelSelectedCountry = (index: number) => {
       indexCountrySelected.value = index;
     };
 
     const handleLabelSelectedStore = (event: any) => {
-      const { id }= event.target;
-      if(typeof(id) === 'undefined' || !id) {
+      const { id } = event.target;
+      if (typeof (id) === 'undefined' || !id) {
         return;
       }
       if (id === '0') {
-        const newResult = storesResults.value.map((item) => ({...item, selected: false }));
+        const newResult = storesResults.value.map((item) => ({ ...item, selected: false }));
         storeIndexSelected.set([]);
         storesResults.value = newResult;
       } else {
@@ -131,14 +115,14 @@ export default defineComponent({
         newResult[id].selected = false;
         storesResults.value = newResult;
         storeIndexSelected.set(storeIndexSelected.get().filter(item => item !== id));
-        
+
       } else {
         const newResult = storesResults.value;
         newResult[id].selected = true;
         storesResults.value = newResult;
-        storeIndexSelected.set([...storeIndexSelected.get(),id]);
+        storeIndexSelected.set([...storeIndexSelected.get(), id]);
       }
-      
+
     };
 
     const selectedStyle = (index: number, type: string) => {
@@ -162,22 +146,22 @@ export default defineComponent({
     const handleMenuClick = () => {
       menu.open = !menu.open;
       if (menu.open) {
-        templateHeight.value ='h-screen w-0'
+        templateHeight.value = 'h-screen w-0'
       }
     };
 
     watch($searchResults, () => {
       const storeAlreadyExists = accordionItems.some((item) => item.label === 'Tiendas');
-      if($searchResults.value && !storeAlreadyExists) {
+      if ($searchResults.value && !storeAlreadyExists) {
         accordionItems.push({
-        section: 'stores',
-        label: 'Tiendas',
-        icon: ICON_TYPE.STORE,
-        open: false,
-      },)
-      const finalResults = $searchResults.value.map(({store, results}) => ({store: store, results: results, selected: false}));
-      finalResults.unshift({store: 'Ver Todos', results: [], selected: true})
-      storesResults.value = finalResults as SearchResults[];
+          section: 'stores',
+          label: 'Tiendas',
+          icon: ICON_TYPE.STORE,
+          open: false,
+        },)
+        const finalResults = $searchResults.value.map(({ store, results }) => ({ store: store, results: results, selected: false }));
+        finalResults.unshift({ store: 'Ver Todos', results: [], selected: true })
+        storesResults.value = finalResults as SearchResults[];
       }
     })
 
@@ -192,7 +176,8 @@ export default defineComponent({
       accordionItems,
       templateHeight,
       search: storesResults,
-      $lowerPriceFirst,
+      $orderByPrice,
+      handleSliderClicked
     };
   },
 });

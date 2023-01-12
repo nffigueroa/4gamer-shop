@@ -11,7 +11,8 @@ const colombia: Country = COUNTRIES.find(
 
 export const countrySelected = atom<Country>(colombia);
 
-export const lowerPriceFirst = atom<boolean>(true);
+// true = higher price first false = lower price first
+export const orderByPrice = atom<boolean>(false);
 
 export const storeIndexSelected = atom<number[]>([-1]);
 

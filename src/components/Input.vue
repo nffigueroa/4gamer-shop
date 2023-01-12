@@ -3,7 +3,7 @@
     <Icon
       :icon="lookup"
       :fill="'white'"
-      class="w-8 h1-8 absolute left-2 top-3 text-xs opacity-50 z-10"
+      class="w-8 h1-8 absolute left-2 top-3 text-xs opacity-50 z-0"
     />
     <input
       type="text"
@@ -26,4 +26,3 @@ const handleInputTxt = (event: Event | any) => {
   emit('searchText', event.target?.value);
 };
 </script>
-<style lang=""></style>

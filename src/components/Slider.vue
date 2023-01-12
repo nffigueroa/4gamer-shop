@@ -23,10 +23,12 @@ const { sliderValues, leftOptionSelected } = defineProps([
   'sliderValues',
   'leftOptionSelected',
 ]);
-
+const emit = defineEmits(['handleSliderClicked']);
 const currentSelection = ref(0);
-const handleSliderSelection = (index: number) =>
-  (currentSelection.value = index);
+const handleSliderSelection = (index: number) => {
+  currentSelection.value = index;
+  emit('handleSliderClicked', index);
+};
 
 onMounted(() => {
   if (leftOptionSelected) {

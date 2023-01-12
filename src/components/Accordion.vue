@@ -10,21 +10,12 @@
         <p :class="labelStyleHighlight(index)">
           {{ item.label }}
         </p>
-        <template v-if="items.section">
-          <template v-if="item.open">
-            <Icon
-              :fill="'white'"
-              :icon="arrowUp"
-              class="w-11 h-11 m-auto mr-0"
-            />
-          </template>
-          <template v-else>
-            <Icon
-              :fill="'white'"
-              :icon="arrowDown"
-              class="w-11 h-11 m-auto mr-0"
-            />
-          </template>
+        <template v-if="item.section">
+          <Icon
+            :fill="'white'"
+            :icon="arrowDown"
+            :class="['w-8 h-8 m-auto mr-0']"
+          />
         </template>
       </div>
       <!-- Accordion Content -->
