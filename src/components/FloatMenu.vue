@@ -4,7 +4,7 @@
       class="pt-10 transition-transform delay-75 h-screen w-screen p-4 rounded bg-purple-1000 text-white overflow-hidden"
       :style="menuStyleTransition"
     >
-      <Slider :sliderValues="['Mayor Precio', 'Menor Precio']" />
+      <Slider :sliderValues="['Mayor Precio', 'Menor Precio']" :leftOptionSelected="$lowerPriceFirst" />
       <Accordion :items="accordionItems">
         <template v-slot:countries>
           <div
@@ -26,24 +26,18 @@
           </div>
         </template>
         <template v-slot:stores>
-          <p
-          :class="`text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto ${selectedStyle(
-            -1, 'store'
-          )} flex align-middle content-center`"
-        >
-          Ver todos
-        </p>
           <div
             v-if="search"
             v-for="(item, index) in search"
             :key="index"
+            :id="`${index}`"
             class="flex ml-16 align-middle items-center w-full border-l border-gray-400"
-            @click="handleLabelSelectedStore(index)"
           >
             <p
-              :class="`text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto ${selectedStyle(
-                index, 'store'
-              )} flex align-middle content-center`"
+              @click="handleLabelSelectedStore"
+              :class="['text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto flex align-middle content-center', {'rounded-lg bg-slate-700 text-white': item.selected}]"
+              :key="index + 'store'"
+              :id="`${index}`"
             >
               {{ item.store }}
               <p class="text-gray-400 text-xs m-auto pl-1">({{item.results?.length}})</p>
@@ -51,10 +45,6 @@
           </div>
         </template>
       </Accordion>
-      <ul>
-        <li>Arma tu pc</li>
-        <li>Califica una tienda</li>
-      </ul>
     </div>
     <!-- FLoating Icon -->
     <div class="m-auto z-10">
@@ -79,8 +69,9 @@ import { ICON_TYPE } from '../const/enum';
 import { COUNTRIES } from '../const/countries';
 import Slider from './Slider.vue';
 import Accordion from './Accordion.vue';
-import { searchResults, storeIndexSelected } from '../store/results.store';
+import { lowerPriceFirst, searchResults, storeIndexSelected } from '../store/results.store';
 import { useStore }from '@nanostores/vue';
+import { SearchResults } from '../model/product';
 
 export default defineComponent({
   name: 'FloatMenu',
@@ -92,8 +83,9 @@ export default defineComponent({
   setup() {
     const templateHeight = ref('h-0 overflow-hidden w-0');
     const indexCountrySelected = ref();
-    const indexStoreSelected = ref();
+    const storesResults = ref<SearchResults[]>([]);
     const $searchResults = useStore(searchResults);
+    const $lowerPriceFirst = useStore(lowerPriceFirst);
     const accordionItems = reactive([
       {
         section: 'countries',
@@ -101,26 +93,55 @@ export default defineComponent({
         icon: ICON_TYPE.LOCATION,
         open: false,
       },
+      {
+        section: '',
+        label: 'Arma tu Pc',
+        icon: ICON_TYPE.LAPTOP,
+        open: false,
+      },
+      {
+        section: '',
+        label: 'Califica una tienda',
+        icon: ICON_TYPE.THUMBS_UP,
+        open: false,
+      },
     ]);
+    
 
     const handleLabelSelectedCountry = (index: number) => {
       indexCountrySelected.value = index;
     };
 
-    const handleLabelSelectedStore = (index: number) => {
-      storeIndexSelected.set(index);
-      console.log(storeIndexSelected.get());
-      indexStoreSelected.value = index;
+    const handleLabelSelectedStore = (event: any) => {
+      const { id }= event.target;
+      if(typeof(id) === 'undefined' || !id) {
+        return;
+      }
+      if (id === '0') {
+        const newResult = storesResults.value.map((item) => ({...item, selected: false }));
+        storeIndexSelected.set([]);
+        storesResults.value = newResult;
+      } else {
+        const newResult = storesResults.value;
+        newResult[0].selected = false;
+        storesResults.value = newResult;
+      }
+      if (storeIndexSelected.get().includes(id)) {
+        const newResult = storesResults.value;
+        newResult[id].selected = false;
+        storesResults.value = newResult;
+        storeIndexSelected.set(storeIndexSelected.get().filter(item => item !== id));
+        
+      } else {
+        const newResult = storesResults.value;
+        newResult[id].selected = true;
+        storesResults.value = newResult;
+        storeIndexSelected.set([...storeIndexSelected.get(),id]);
+      }
       
     };
 
-
     const selectedStyle = (index: number, type: string) => {
-      if (type === 'store') {
-        return index === indexStoreSelected.value
-        ? 'rounded-lg bg-slate-700 text-white'
-        : '';
-      }
       return index === indexCountrySelected.value ? 'rounded-lg bg-slate-700 text-white'
         : '';
     };
@@ -154,6 +175,9 @@ export default defineComponent({
         icon: ICON_TYPE.STORE,
         open: false,
       },)
+      const finalResults = $searchResults.value.map(({store, results}) => ({store: store, results: results, selected: false}));
+      finalResults.unshift({store: 'Ver Todos', results: [], selected: true})
+      storesResults.value = finalResults as SearchResults[];
       }
     })
 
@@ -167,7 +191,8 @@ export default defineComponent({
       selectedStyle,
       accordionItems,
       templateHeight,
-      search: $searchResults
+      search: storesResults,
+      $lowerPriceFirst,
     };
   },
 });

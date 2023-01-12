@@ -1,5 +1,7 @@
 <template>
-  <div class="flex w-full justify-center border-b border-white">
+  <div
+    class="fixed py-2 top-0 left-0 flex w-full justify-center content-center border-b border-white bg-purple-750 z-10"
+  >
     <div class="pr-1">
       <IconComponent :fill="'white'" class="h-5 w-9" :icon="icon" />
     </div>

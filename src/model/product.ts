@@ -23,3 +23,5 @@ export interface SearchResponse {
   store: string;
   results: Product[];
 }
+
+export type SearchResults = SearchResponse & { selected: boolean };

@@ -16,25 +16,25 @@
     ></div>
   </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { computed, defineProps, onMounted, ref } from 'vue';
 
-export default defineComponent({
-  name: 'SliderComponent',
-  props: ['sliderValues'],
-  setup() {
-    const currentSelection = ref(0);
-    const handleSliderSelection = (index: number) =>
-      (currentSelection.value = index);
+const { sliderValues, leftOptionSelected } = defineProps([
+  'sliderValues',
+  'leftOptionSelected',
+]);
 
-    const optionSelectedStyle = computed(() => ({
-      transform: `translateX(${currentSelection.value ? '100%' : 0})`,
-    }));
+const currentSelection = ref(0);
+const handleSliderSelection = (index: number) =>
+  (currentSelection.value = index);
 
-    return {
-      handleSliderSelection,
-      optionSelectedStyle,
-    };
-  },
+onMounted(() => {
+  if (leftOptionSelected) {
+    handleSliderSelection(0);
+  }
 });
+
+const optionSelectedStyle = computed(() => ({
+  transform: `translateX(${currentSelection.value ? '100%' : 0})`,
+}));
 </script>

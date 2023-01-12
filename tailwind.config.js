@@ -5,8 +5,9 @@ module.exports = {
     extend: {
       colors: {
         purple: {
+          750: '#32124A',
           1000: '#170E2B',
-          1100: '#20192C'
+          1100: '#20192C',
         }
       },
       transitionProperty: {
@@ -19,6 +20,9 @@ module.exports = {
       },
       fontSize: {
         tl: '20px'
+      },
+      minHeight: {
+        '32' : '32px'
       },
       backgroundImage: {
         default: 'linear-gradient(180deg, #32124A 38.54%, #1A0A27 57.29%, #000000 83.85%)'

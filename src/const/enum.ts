@@ -7,4 +7,12 @@ export enum ICON_TYPE {
   HAMBURGER = 'HamburgerIcon',
   LOCATION = 'LocationIcon',
   LOOKUP = 'LookupIcon',
+  WARNING = 'WarningIcon',
+  CONTROL = 'ControlIcon',
+  GAME_BOY = 'GameboyIcon',
+  GAMEPAD = 'GamepadIcon',
+  XBOX = 'XboxIcon',
+  SONY_PS = 'SonyPlayIcon',
+  LAPTOP = 'LaptopIcon',
+  THUMBS_UP = 'ThumbsUpIcon',
 }

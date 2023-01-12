@@ -7,29 +7,23 @@
     />
     <input
       type="text"
+      :placeholder="placeholder"
       class="rounded h-10 w-full bg-gray-700 pl-10 text-lg text-white z-0"
       @input="handleInputTxt"
     />
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, defineEmits } from 'vue';
+<script lang="ts" setup>
+import { defineEmits } from 'vue';
 import { ICON_TYPE } from '../const/enum';
 import Icon from '../icons/Icon.vue';
+const lookup = ICON_TYPE.LOOKUP;
+const emit = defineEmits(['searchText']);
 
-export default defineComponent({
-  components: {
-    Icon,
-  },
+const { placeholder } = defineProps(['placeholder']);
 
-  setup(_props, ctx) {
-    const inputTxt = '';
-    const handleInputTxt = (event: Event | any) => {
-      ctx.emit('searchText', event.target?.value);
-    };
-
-    return { lookup: ICON_TYPE.LOOKUP, handleInputTxt, inputTxt };
-  },
-});
+const handleInputTxt = (event: Event | any) => {
+  emit('searchText', event.target?.value);
+};
 </script>
 <style lang=""></style>

@@ -63,7 +63,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.CLONES_Y_PERIFERICOS,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://clonesyperifericos.com',
     urlStore:
       'https://clonesyperifericos.com/?s={searchText}&post_type=product&et_search=true',
