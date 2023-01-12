@@ -11,7 +11,7 @@
   "scripts": {
     "start:api": "wrangler dev api/index.ts",
     "deploy": "wrangler publish",
-    "deploy-ui": "wrangler publish dist/",
+    "deploy-ui": "wrangler publish pages ./dist",
     "dev": "astro dev",
     "start:web": "astro dev",
     "build": "astro build",
