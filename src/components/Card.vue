@@ -2,8 +2,7 @@
   <div class="bg-purple-1100 p-2 mt-5 w-44 rounded-lg">
     <img :src="item.image" :alt="item.name" class="w-40 h-44" />
     <p
-      class="text-white uppercase text-xs font-bold w-40 indent-px max-h-8 min-h-32 mt-2 text-ellipsis overflow-hidden"
-    >
+      class="text-white uppercase text-xs font-bold w-40 indent-px max-h-8 min-h-32 mt-2 text-ellipsis overflow-hidden">
       {{ item.name }}
     </p>
     <p class="text-gray-400 text-xs mt-2">Precio</p>
@@ -11,13 +10,13 @@
       ${{ Number(item.price).toLocaleString() }}
     </p>
     <p class="text-gray-400 text-xs mt-2">Tienda</p>
-    <p class="text-white font-bold text-sm">{{ item.seller.name }}</p>
+    <p class="flex text-white font-bold text-sm content-center align-middle">{{ item.seller.name }}
+      <img class="bg-white rounded-lg w-7 m-auto mr-0 relative bottom-2" :src="item.seller.favicon"
+        :alt="item.seller.name">
+    </p>
     <footer class="flex justify-center w-full mt-2">
-      <button
-        @click="handleCardClick(item.itemUrl)"
-        type="button"
-        class="text-purple-500 border border-purple-500 rounded-lg py-1 px-8"
-      >
+      <button @click="handleCardClick(item.itemUrl)" type="button"
+        class="text-purple-500 border border-purple-500 rounded-lg py-1 px-8">
         Ir a la tienda
       </button>
     </footer>

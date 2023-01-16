@@ -1,25 +1,26 @@
-import { STORES_LIST } from '../const/stores';
-
 export interface Product {
   name: string;
   price: string;
   image: string;
-  itemUrl: string;
+  itemUrl: string; // Url that leads to the store with more product details.
   seller: {
     name: string;
     url?: string;
+    favicon: string;
   };
-  offer?: boolean;
+  offer?: boolean; // TODO: pending to implement
 }
 
+// Selectors for scrapping
 export interface StoreScrapping {
-  title: string[] | string;
-  price: string[] | string;
-  image: string;
-  url: string;
+  title: string[] | string; // Main label that shows the product name.
+  price: string[] | string; // Main element that contains the price of the product.
+  image: string; // Element that contains the image in the store.
+  url: string; // Main of the store , in theirs card's products has a link for redirecting the user to another link which contains details about the product.
 }
 
 export interface SearchResponse {
+  totalProducts?: number;
   store: string;
   results: Product[];
 }

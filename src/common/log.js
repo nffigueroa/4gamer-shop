@@ -2,10 +2,10 @@ import pc from 'picocolors'
 
 
 const symbol = {
-	info: pc.blue('ℹ'),
-	success: pc.green('✔'),
-	warning: pc.yellow('⚠'),
-	error: pc.red('✖')
+	info: pc.blue('[info]]'),
+	success: pc.green('[success]]'),
+	warning: pc.yellow('[warning]'),
+	error: pc.red('[error]')
 }
 
 export const logInfo = (...args) => console.log(`${symbol.info} ${pc.blue(...args)}`)

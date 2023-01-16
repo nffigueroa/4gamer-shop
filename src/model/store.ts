@@ -4,12 +4,12 @@ import { Product, StoreScrapping } from './product';
 export interface Store {
   name: string;
   id?: string;
-  urlDomain?: string;
-  urlStore: string;
-  queryEnable: boolean;
-  enableScrapping: boolean;
-  scrapping: StoreScrapping;
-  priceMultiple?: number;
+  urlDomain?: string; // host domain of store e.g. http://speedlogic.com
+  urlStore: string; // Url where the store exposes the query e.g. https://www.tiendagamermedellin.co/search?q={searchText}
+  queryEnable: boolean; // Meaning that the store is query scrapping enabled.
+  enableScrapping: boolean; // Store enabled for scrapping process.
+  scrapping: StoreScrapping; // Selectors for scrapping.
+  priceMultiple?: number; // Some stores has prices such as : 345 meaning that $345.000 , this property times the values obtained from store in order to have a real value.
   scrapper: (
     $: any,
     storeCrapping: StoreScrapping,

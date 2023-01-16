@@ -2,7 +2,8 @@
   <div class="mt-12">
     <div class="flex justify-between">
       <Input @searchText="inputCallback" :placeholder="'Serie o nombre'" />
-      <button @click="triggerQuery" type="button" class="text-purple-500 border border-purple-500 rounded-lg py-1 px-4">
+      <button @click="triggerQuery" type="button"
+        class="ml-4 text-purple-500 border border-purple-500 rounded-lg py-1 px-4">
         Buscar
       </button>
     </div>
@@ -95,16 +96,25 @@ const txtValidation = (txt: string) => txt.length > 3;
 const inputCallback = (txt: string) => (inputText.value = txt);
 
 const triggerQuery = async () => {
-  if (!txtValidation(inputText.value)) {
-    return;
+  try {
+    if (!txtValidation(inputText.value)) {
+      return;
+    }
+    loading.value = true;
+    const response = await fetch(`/product/${inputText.value}.json`);
+    const { search } = (await response.json()) as {
+      search: SearchResponse[];
+    };
+    addSearchResults(search);
+    productProperties.value = orderProductsByPrice(extractProductsFromPayload(), $orderByPrice.value);
+    loading.value = false;
+  } catch (error) {
+    loading.value = false;
+    productProperties.value = [];
   }
-  loading.value = true;
-  const response = await fetch(`/product/${inputText.value}.json`);
-  const { search } = (await response.json()) as {
-    search: SearchResponse[];
-  };
-  addSearchResults(search);
-  productProperties.value = orderProductsByPrice(extractProductsFromPayload(), $orderByPrice.value);
-  loading.value = false;
+  finally {
+    loading.value = false;
+  }
+
 };
 </script>

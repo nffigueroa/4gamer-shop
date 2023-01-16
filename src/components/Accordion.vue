@@ -1,32 +1,19 @@
 <template>
   <div class="mt-6">
     <div v-for="(item, index) in accordionItems" class="">
-      <div
-        class="flex align-middle items-center"
-        @click="handleLabelClicked(index)"
-      >
+      <div class="flex align-middle items-center" @click="handleLabelClicked(index)">
         <!-- Arrow Icon for accordion section -->
         <Icon :fill="'white'" class="w-8 h-8 mb-2" :icon="item.icon" />
         <p :class="labelStyleHighlight(index)">
           {{ item.label }}
         </p>
         <template v-if="item.section">
-          <Icon
-            :fill="'white'"
-            :icon="arrowDown"
-            :class="['w-8 h-8 m-auto mr-0']"
-          />
+          <Icon :fill="'white'" :icon="arrowDown" :class="['w-8 h-8 m-auto mr-0']" />
         </template>
       </div>
       <!-- Accordion Content -->
-      <div
-        class="flex justify-between transition-max-height overflow-hidden"
-        :style="contentHeight(item.open)"
-      >
-        <section
-          class="transition-max-height"
-          :style="contentHeight(item.open)"
-        >
+      <div class="flex justify-between transition-max-height overflow-hidden" :style="contentHeight(item.open)">
+        <section class="transition-max-height overflow-y-scroll" :style="contentHeight(item.open)">
           <slot :name="item.section"></slot>
         </section>
       </div>

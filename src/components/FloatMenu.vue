@@ -23,12 +23,15 @@
         <template v-slot:stores>
           <div v-if="search" v-for="(item, index) in search" :key="index" :id="`${index}`"
             class="flex ml-16 align-middle items-center w-full border-l border-gray-400">
-            <p @click="handleLabelSelectedStore"
-              :class="['text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto flex align-middle content-center', { 'rounded-lg bg-slate-700 text-white': item.selected }]"
-              :key="index + 'store'" :id="`${index}`">
+            <div @click="handleLabelSelectedStore" :class="[
+              'text-gray-400 font-bold ml-8 p-2 mt-1 w-auto h-auto flex align-middle content-center',
+              { 'rounded-lg bg-slate-700 text-white': item.selected },
+            ]" :key="index + 'store'" :id="`${index}`">
               {{ item.store }}
-            <p class="text-gray-400 text-xs m-auto pl-1">({{ item.results?.length }})</p>
-            </p>
+              <p class="text-gray-400 text-xs m-auto pl-1">
+                ({{ item.totalProducts }})
+              </p>
+            </div>
           </div>
         </template>
       </Accordion>
@@ -49,9 +52,14 @@ import { ICON_TYPE } from '../const/enum';
 import { COUNTRIES } from '../const/countries';
 import Slider from './Slider.vue';
 import Accordion from './Accordion.vue';
-import { orderByPrice, searchResults, storeIndexSelected } from '../store/results.store';
+import {
+  orderByPrice,
+  searchResults,
+  storeIndexSelected,
+} from '../store/results.store';
 import { useStore } from '@nanostores/vue';
-import { SearchResults } from '../model/product';
+import { SearchResponse, SearchResults } from '../model/product';
+import { getTotalProductsFromResponse } from '../common/util';
 
 export default defineComponent({
   name: 'FloatMenu',
@@ -91,18 +99,21 @@ export default defineComponent({
       console.log('Se guardo', Boolean(index));
 
       orderByPrice.set(Boolean(index));
-    }
+    };
     const handleLabelSelectedCountry = (index: number) => {
       indexCountrySelected.value = index;
     };
 
     const handleLabelSelectedStore = (event: any) => {
       const { id } = event.target;
-      if (typeof (id) === 'undefined' || !id) {
+      if (typeof id === 'undefined' || !id) {
         return;
       }
       if (id === '0') {
-        const newResult = storesResults.value.map((item) => ({ ...item, selected: false }));
+        const newResult = storesResults.value.map((item) => ({
+          ...item,
+          selected: false,
+        }));
         storeIndexSelected.set([]);
         storesResults.value = newResult;
       } else {
@@ -114,19 +125,20 @@ export default defineComponent({
         const newResult = storesResults.value;
         newResult[id].selected = false;
         storesResults.value = newResult;
-        storeIndexSelected.set(storeIndexSelected.get().filter(item => item !== id));
-
+        storeIndexSelected.set(
+          storeIndexSelected.get().filter((item) => item !== id)
+        );
       } else {
         const newResult = storesResults.value;
         newResult[id].selected = true;
         storesResults.value = newResult;
         storeIndexSelected.set([...storeIndexSelected.get(), id]);
       }
-
     };
 
     const selectedStyle = (index: number, type: string) => {
-      return index === indexCountrySelected.value ? 'rounded-lg bg-slate-700 text-white'
+      return index === indexCountrySelected.value
+        ? 'rounded-lg bg-slate-700 text-white'
         : '';
     };
 
@@ -146,24 +158,40 @@ export default defineComponent({
     const handleMenuClick = () => {
       menu.open = !menu.open;
       if (menu.open) {
-        templateHeight.value = 'h-screen w-0'
+        templateHeight.value = 'h-screen w-0';
       }
     };
 
     watch($searchResults, () => {
-      const storeAlreadyExists = accordionItems.some((item) => item.label === 'Tiendas');
+      const storeAlreadyExists = accordionItems.some(
+        (item) => item.label === 'Tiendas'
+      );
       if ($searchResults.value && !storeAlreadyExists) {
         accordionItems.push({
           section: 'stores',
           label: 'Tiendas',
           icon: ICON_TYPE.STORE,
           open: false,
-        },)
-        const finalResults = $searchResults.value.map(({ store, results }) => ({ store: store, results: results, selected: false }));
-        finalResults.unshift({ store: 'Ver Todos', results: [], selected: true })
+        });
+        const finalResults = $searchResults.value.map(
+          ({ store, results, totalProducts }) => ({
+            store,
+            results,
+            totalProducts,
+            selected: false,
+          })
+        );
+        finalResults.unshift({
+          store: 'Ver Todos',
+          results: [],
+          selected: true,
+          totalProducts: getTotalProductsFromResponse(
+            $searchResults.value as SearchResponse[]
+          ),
+        });
         storesResults.value = finalResults as SearchResults[];
       }
-    })
+    });
 
     return {
       showCloseOrStoreIcon,
@@ -177,7 +205,7 @@ export default defineComponent({
       templateHeight,
       search: storesResults,
       $orderByPrice,
-      handleSliderClicked
+      handleSliderClicked,
     };
   },
 });

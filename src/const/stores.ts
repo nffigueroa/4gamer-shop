@@ -6,7 +6,7 @@ export const SEARCH_TXT_KEYWORD = '{searchText}';
 export enum STORES_LIST {
   SPEEDLOGIC = 'SpeedLogic',
   IMAGEN_WORLD = 'Imagen World',
-  TIERRA_GAMER_MEDELLIN = 'Tierra Gamer Medellin',
+  TIENDA_GAMER_MEDELLIN = 'Tienda Gamer Medellin',
   CLONES_Y_PERIFERICOS = 'Clones y Perifericos',
   TAURET = 'Tauret',
   MERCADO_LIBRE = 'MercadoLibre',
@@ -18,7 +18,7 @@ export enum STORES_LIST {
 }
 export const STORES: Store[] = [
   {
-    enableScrapping: false,
+    enableScrapping: true,
     name: STORES_LIST.SPEEDLOGIC,
     urlDomain: 'https://speedlogic.com.co',
     urlStore: 'https://partes.speedlogic.com.co/',
@@ -34,7 +34,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.IMAGEN_WORLD,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://www.imagenworld.com',
     urlStore: 'https://www.imagenworld.com/xapps/listaprecios/3/a',
     queryEnable: false,
@@ -47,7 +47,7 @@ export const STORES: Store[] = [
     },
   },
   {
-    name: STORES_LIST.TIERRA_GAMER_MEDELLIN,
+    name: STORES_LIST.TIENDA_GAMER_MEDELLIN,
     enableScrapping: true,
     urlDomain: 'https://www.tiendagamermedellin.co',
     urlStore: 'https://www.tiendagamermedellin.co/search?q={searchText}',
@@ -57,8 +57,7 @@ export const STORES: Store[] = [
       url: 'div.product-block__info > a',
       image: `img[class*='product-block__image']`,
       title: 'div.product-block__info > a',
-      price:
-        'body > div.main-container > section.container.page-gallery > div > div > div > div.product-block__info > div > span:nth-child(1)',
+      price: `div[class*='product-block__price']`,
     },
   },
   {
@@ -78,7 +77,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.TAURET,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://tauretcomputadores.com',
     urlStore:
       'https://tauretcomputadores.com/search_product?product_search={searchText}&product_search_slug=',
@@ -93,7 +92,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.MERCADO_LIBRE,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://mercadolibre.com.co',
     urlStore: 'https://listado.mercadolibre.com.co/{searchText}',
     queryEnable: true,
@@ -109,7 +108,7 @@ export const STORES: Store[] = [
 
   {
     name: STORES_LIST.GAMERS_COLOMBIA,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://gamerscolombia.com',
     urlStore: 'https://gamerscolombia.com/tienda?productSearch={searchText}',
     queryEnable: true,
@@ -123,7 +122,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.TRADE_INN,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://www.tradeinn.com',
     urlStore:
       'https://www.tradeinn.com/techinn/es?products_search%5Bquery%5D={searchText}',
@@ -138,7 +137,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.MUNDO_COMPUTO,
-    enableScrapping: false,
+    enableScrapping: true,
     urlDomain: 'https://mundocomputo.com',
     urlStore: 'https://mundocomputo.com/shop?search={searchText}&order=',
     queryEnable: true,
@@ -152,7 +151,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.NUEVO_WEBO,
-    enableScrapping: false,
+    enableScrapping: true,
     urlStore: 'https://nuevowevo.com/?s={searchText}',
     urlDomain: 'https://nuevowevo.com',
     queryEnable: true,
@@ -166,7 +165,7 @@ export const STORES: Store[] = [
   },
   {
     name: STORES_LIST.MR_PC,
-    enableScrapping: false,
+    enableScrapping: true,
     urlStore: 'https://www.mrpc.com.co/shop/?product_cat=&s={searchText}',
     urlDomain: 'https://www.mrpc.com.co/',
     queryEnable: true,
@@ -175,7 +174,7 @@ export const STORES: Store[] = [
       url: `div.product-detail-wrapper > a[href*='.com']`,
       image: `img[class*='attachment-shop-catalog']`,
       title: 'h3.product-name',
-      price: 'span.woocommerce-Price-amount amount > bdi',
+      price: `span[class*='Price-amount'] > bdi`,
     },
   },
 ];

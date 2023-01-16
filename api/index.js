@@ -3,9 +3,14 @@ import { Scrapping } from '../src/common';
 
 const app = new Hono();
 
-app.get('/search/:searchText', async (c) => {
+app.get('/search/:searchText', async (c, next) => {
+  const headerSecret = c.req.header()['secret'];
   const txt = c.req.param('searchText');
+  if (!headerSecret || headerSecret !== c.env.JWT_SECRET) {
+    return c.json({}, 401);
+  }
   const search = await Scrapping.search(txt);
+
   return c.json({ search });
 });
 

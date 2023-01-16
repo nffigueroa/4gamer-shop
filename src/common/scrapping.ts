@@ -12,7 +12,7 @@ export const Scrapping = {
 
     return cheerio.load(content);
   },
-  async search(txt: string) {
+  async search(txt: string): Promise<SearchResponse[]> {
     try {
       const { loadHtml } = Scrapping;
       const stores = STORES;
@@ -39,11 +39,18 @@ export const Scrapping = {
             name as STORES_LIST,
             txt
           );
+          response[index].totalProducts = response[index].results.length;
         }
       }
+      response = response.sort(
+        (a, b) => Number(b.totalProducts) - Number(a.totalProducts)
+      );
       return response;
     } catch (error) {
       console.log(error);
+      return [];
+    } finally {
+      logInfo('Scrapping done');
     }
   },
 };

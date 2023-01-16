@@ -1,22 +1,36 @@
 {
   "name": "4gaming-query",
   "version": "0.0.0",
+  "description": "4Gaming shop , search for the best price",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20221111.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "eslint": "^8.32.0",
+    "eslint-config-standard-with-typescript": "^27.0.1",
+    "eslint-plugin-astro": "^0.21.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "prettier": "^2.8.3",
+    "prettier-plugin-astro": "^0.7.2",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.4",
     "wrangler": "2.6.2"
   },
   "private": true,
   "scripts": {
-    "start:api": "wrangler dev api/index.ts",
+    "start:api": "wrangler dev api/index.js",
+    "start:web": "astro dev",
+    "dev": "astro dev",
+    "build": "astro build",
     "deploy": "wrangler publish",
     "deploy-ui": "wrangler publish pages ./dist",
-    "dev": "astro dev",
-    "start:web": "astro dev",
-    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint . --ext .js,.astro,.ts,.tsx,.vue",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/cloudflare": "^5.0.0",
@@ -29,6 +43,7 @@
     "cheerio": "1.0.0-rc.12",
     "cloudflare": "^2.9.1",
     "hono": "^2.7.1",
+    "husky": "^8.0.3",
     "nanostores": "^0.7.1",
     "picocolors": "^1.0.0",
     "vue": "^3.2.45"
