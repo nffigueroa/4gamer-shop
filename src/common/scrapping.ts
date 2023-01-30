@@ -1,16 +1,22 @@
 import * as cheerio from 'cheerio';
 import { SEARCH_TXT_KEYWORD, STORES, STORES_LIST } from '../const/stores';
 import { SearchResponse } from '../model/product';
-import { logInfo } from './log';
+import { logError, logInfo } from './log';
 
 export const Scrapping = {
-  async loadHtml(uri: string) {
-    logInfo(`Scrapping aiming to ${uri}`);
-    const res = await fetch(uri);
+  async loadHtml(uri: string): Promise<cheerio.CheerioAPI | null> {
+    try {
+      logInfo(`Scrapping aiming to ${uri}`);
+      const res = await fetch(uri);
 
-    const content = await res.text();
+      const content = await res.text();
 
-    return cheerio.load(content);
+      return cheerio.load(content);
+    } catch (error) {
+      logError(`Fetch failed aiming to ${uri}`);
+      logError(error);
+      return null;
+    }
   },
   async search(txt: string): Promise<SearchResponse[]> {
     try {

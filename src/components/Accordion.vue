@@ -13,7 +13,7 @@
       </div>
       <!-- Accordion Content -->
       <div class="flex justify-between transition-max-height overflow-hidden" :style="contentHeight(item.open)">
-        <section class="transition-max-height overflow-y-scroll" :style="contentHeight(item.open)">
+        <section class="transition-max-height overflow-y-scroll overflow-x-hidden" :style="contentHeight(item.open)">
           <slot :name="item.section"></slot>
         </section>
       </div>

@@ -39,22 +39,22 @@ export const scrapper = (
 
     let productList: Product[] = [];
     let product: Product = initializeProductPayload();
-    const favicon = $(`link[rel~='icon']`).attr('href');
+    const favicon = $(`link[rel~='icon']`).attr('href') || '';
     $(title).each(function (index: number, element: any) {
       product = initializeProductPayload();
       product.name = String($(element).text());
 
       product.seller.name = String(storeName);
       product.seller.url = urlDomain;
-      product.seller.favicon = favicon.includes('.com')
-        ? favicon
-        : `${urlDomain}${favicon}`;
+      product.seller.favicon =
+        !favicon || favicon.includes('.com')
+          ? favicon
+          : `${urlDomain}${favicon}`;
       productList.push(product);
     });
     logInfo('********************Titles scrapped');
     let countProductList = 0;
     $(price).each(function (index: number, element: any) {
-      logInfo($(element).text());
       if ($(element).children().length > 1) {
         const price = cleanNumberValue(
           $(element).children(':nth-child(1)').text()
