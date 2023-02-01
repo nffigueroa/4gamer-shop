@@ -1,10 +1,10 @@
 import { atom, map } from 'nanostores';
-import { COUNTRIES } from '../const/countries';
+import { COUNTRIES, COUNTRIES_CODES } from '../const/countries';
 import { Country } from '../model/country';
 import { SearchResponse } from '../model/product';
 
 const colombia: Country = COUNTRIES.find(
-  (item: Country) => item.code === 'COL'
+  (item: Country) => item.code === COUNTRIES_CODES.COLOMBIA
 ) as Country;
 
 // --- Atoms

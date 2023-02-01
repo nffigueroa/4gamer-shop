@@ -6,13 +6,22 @@
       {{ item.name }}
     </p>
     <p class="text-gray-400 text-xs mt-2">Precio</p>
-    <p class="text-white font-bold text-sm">
-      ${{ Number(item.price).toLocaleString() }}
-    </p>
+    <template v-if="Number(item.price)">
+      <p class="text-white font-bold text-sm">
+        ${{ Number(item.price).toLocaleString() }}
+      </p>
+    </template>
+    <template v-else>
+      <p class="text-white font-bold text-sm">
+        No disponible
+      </p>
+    </template>
+
     <p class="text-gray-400 text-xs mt-2">Tienda</p>
     <p class="flex text-white font-bold text-sm content-center align-middle">{{ item.seller.name }}
-      <img v-if="item.seller.favicon" class="bg-white rounded-lg w-7 m-auto mr-0 relative bottom-2"
-        :src="item.seller.favicon" :alt="item.seller.name">
+      <img v-if="item.seller.favicon"
+        class="shadow-lg shadow-purple	 bg-transparent rounded-lg w-7 m-auto mr-0 relative bottom-2"
+        :src="item.seller.favicon" :alt="item.seller.name" />
     </p>
     <footer class="flex justify-center w-full mt-2">
       <button @click="handleCardClick(item.itemUrl)" type="button"

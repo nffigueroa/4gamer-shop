@@ -1,9 +1,11 @@
 import { STORES_LIST } from '../const/stores';
 import { Product, StoreScrapping } from './product';
+import { Country } from './country';
 
 export interface Store {
   name: string;
   id?: string;
+  country: Country;
   urlDomain?: string; // host domain of store e.g. http://speedlogic.com
   urlStore: string; // Url where the store exposes the query e.g. https://www.tiendagamermedellin.co/search?q={searchText}
   queryEnable: boolean; // Meaning that the store is query scrapping enabled.

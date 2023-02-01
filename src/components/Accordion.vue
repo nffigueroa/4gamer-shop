@@ -1,7 +1,7 @@
 <template>
   <div class="mt-6">
     <div v-for="(item, index) in accordionItems" class="">
-      <div class="flex align-middle items-center" @click="handleLabelClicked(index)">
+      <div class="cursor-pointer flex align-middle items-center" @click="handleLabelClicked(index)">
         <!-- Arrow Icon for accordion section -->
         <Icon :fill="'white'" class="w-8 h-8 mb-2" :icon="item.icon" />
         <p :class="labelStyleHighlight(index)">
@@ -13,7 +13,8 @@
       </div>
       <!-- Accordion Content -->
       <div class="flex justify-between transition-max-height overflow-hidden" :style="contentHeight(item.open)">
-        <section class="transition-max-height overflow-y-scroll overflow-x-hidden" :style="contentHeight(item.open)">
+        <section class="md:overflow-hidden transition-max-height overflow-y-scroll overflow-x-hidden"
+          :style="contentHeight(item.open)">
           <slot :name="item.section"></slot>
         </section>
       </div>

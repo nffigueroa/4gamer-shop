@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-12">
+  <div class="md:mt-2 mt-12">
     <div class="flex justify-between">
       <Input @searchText="inputCallback" :placeholder="'Serie o nombre'" />
       <button @click="triggerQuery" type="button"
@@ -12,12 +12,12 @@
       <Loading />
     </template>
     <FloatMenu />
-    <template v-if="productProperties && !productProperties.length && loading">
+    <template v-if="productProperties && !productProperties.length && !loading">
       <NotFound />
     </template>
     <section v-if="productProperties && productProperties.length"
       class="m-auto mt-4 flex flex-wrap justify-center w-fit max-w-fit">
-      <Card v-for="item in productProperties" :item="item" class="mr-2" />
+      <Card v-for="item in productProperties" :item="item" class="md:mr-8 mr-2" />
     </section>
   </div>
 </template>
@@ -27,15 +27,18 @@ import { ref, watch } from 'vue';
 import { Product, SearchResponse } from '../model/product';
 import {
   addSearchResults,
+  countrySelected,
   orderByPrice,
   searchResults,
   storeIndexSelected,
 } from '../store/results.store';
+import { orderProductsByPrice } from '../common/util';
 import Card from './Card.vue';
 import FloatMenu from './FloatMenu.vue';
 import Input from './Input.vue';
 import Loading from './Loading.vue';
 import NotFound from './NotFound.vue';
+
 
 const loading = ref(false);
 const inputText = ref('');
@@ -53,13 +56,6 @@ const getStoreNameSelected = (index: number): string => {
   } catch (error) {
     return '';
   }
-};
-
-const orderProductsByPrice = (
-  products: Product[],
-  orderByPrice: boolean
-): Product[] => {
-  return products.sort((a, b) => orderByPrice ? Number(b.price) - Number(a.price) : Number(a.price) - Number(b.price));
 };
 
 const getProductsByStoreName = (name: string): Product[] => {
@@ -101,12 +97,14 @@ const triggerQuery = async () => {
       return;
     }
     loading.value = true;
-    const response = await fetch(`/product/${inputText.value}.json`);
+    const response = await fetch(`/product/${inputText.value}/${countrySelected.get().code}.json`);
     const { search } = (await response.json()) as {
       search: SearchResponse[];
     };
     addSearchResults(search);
     productProperties.value = orderProductsByPrice(extractProductsFromPayload(), $orderByPrice.value);
+    console.log(productProperties.value.length);
+
     loading.value = false;
   } catch (error) {
     loading.value = false;

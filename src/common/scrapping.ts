@@ -18,10 +18,12 @@ export const Scrapping = {
       return null;
     }
   },
-  async search(txt: string): Promise<SearchResponse[]> {
+  async search(txt: string, countryCode: string): Promise<SearchResponse[]> {
     try {
       const { loadHtml } = Scrapping;
-      const stores = STORES;
+      const stores = STORES.filter(
+        (store) => store.country.code === countryCode
+      );
       let response: SearchResponse[] = [];
       for (let index = 0; index < stores.length; index++) {
         response.push({ store: '', results: [] });
