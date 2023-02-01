@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import { SEARCH_TXT_KEYWORD, STORES, STORES_LIST } from '../const/stores';
 import { SearchResponse } from '../model/product';
-import { logError, logInfo } from './log';
+import { logError, logInfo, logSuccess } from './log';
 
 export const Scrapping = {
   async loadHtml(uri: string): Promise<cheerio.CheerioAPI | null> {
@@ -49,14 +49,14 @@ export const Scrapping = {
         }
       }
       response = response.sort(
-        (a, b) => Number(b.totalProducts) - Number(a.totalProducts)
+        (a, b) => Number(b.totalProducts ?? 0) - Number(a.totalProducts ?? 0)
       );
       return response;
     } catch (error) {
-      console.log(error);
+      logError(error);
       return [];
     } finally {
-      logInfo('Scrapping done');
+      logSuccess('Scrapping done');
     }
   },
 };
