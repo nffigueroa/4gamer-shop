@@ -25,7 +25,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "deploy-api": "wrangler publish",
-    "deploy-ui": "wrangler publish pages ./dist",
+    "deploy-ui": "wrangler pages publish ./dist",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint . --ext .js,.astro,.ts,.tsx,.vue",
