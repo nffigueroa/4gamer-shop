@@ -61,4 +61,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ${{ needs.build.outputs.build_id }}
-          command: pages publish      
+          command: pages publish ${{ needs.build.outputs.build_id }}      
