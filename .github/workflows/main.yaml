@@ -43,7 +43,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build project 
-        run: pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+        run: pnpm build echo "build_id=$BUILD_ID"
+      - name: Tests
+        run: echo 'output $GITHUB_OUTPUT and $BUILD_ID'
  
   deploy_iu:
     runs-on: ubuntu-latest
