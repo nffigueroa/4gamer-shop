@@ -60,5 +60,5 @@ jobs:
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: ${{ needs.build.outputs.build_id }}
-          command: pages publish ${{ needs.build.outputs.build_id }}      
+          workingDirectory: ./dist
+          command: pages publish ./dist
