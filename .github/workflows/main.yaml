@@ -10,10 +10,9 @@ jobs:
     name: API deploying
     environment: Production
     steps:
-      - name: deploy API
-        id: deploy
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: deploy
         with:
           node-version: 18
       - uses: pnpm/action-setup@v2
@@ -32,10 +31,9 @@ jobs:
     name: Build UI
     environment: Production
     steps:
-      - name: deploy UI
-        id: deploy_ui
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: deploy_ui
         with:
           node-version: 18
       - uses: pnpm/action-setup@v2.2.4
