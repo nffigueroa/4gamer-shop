@@ -5,7 +5,7 @@ on:
 jobs:
   deploy_api:
     if: github.repository_owner == 'nffigueroa'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     name: API deploying
     environment: Production
@@ -26,8 +26,8 @@ jobs:
           command: publish
   deploy_ui:
     needs: deploy_api
-    if: github.repository.owner == 'nffigueroa'
-    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
     name: Build UI
     environment: Production
     steps:
