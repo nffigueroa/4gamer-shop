@@ -24,7 +24,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: api
-          command: publish --env production
+          command: publish
   build_ui:
     if: github.repository.owner == 'nffigueroa'
     runs-on: ubuntu-22.04
