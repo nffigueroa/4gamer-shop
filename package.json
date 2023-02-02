@@ -24,7 +24,7 @@
     "start:web": "astro dev",
     "dev": "astro dev",
     "build": "astro build",
-    "deploy": "wrangler publish",
+    "deploy-api": "wrangler publish",
     "deploy-ui": "wrangler publish pages ./dist",
     "preview": "astro preview",
     "astro": "astro",
