@@ -61,6 +61,5 @@ jobs:
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNTID }} 
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          directory: ./dist
-          command: pages publish ./dist
+          directory: ../dist
           projectName: 4gaming-ui
