@@ -63,3 +63,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           directory: ./dist
           command: pages publish ./dist
+          projectName: 4gaming-ui
