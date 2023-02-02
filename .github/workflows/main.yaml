@@ -57,7 +57,7 @@ jobs:
       - name: Directoreis names
         run: 'echo ${{needs.build.outputs.build_id}}'
       - name: Deploy to Cloudflare Workers with Wrangler
-        uses: cloudflare/wrangler-action@2.0.0
+        uses: cloudflare/pages-action@v1.3.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ./dist
