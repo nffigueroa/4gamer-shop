@@ -19,7 +19,7 @@ jobs:
           version: 7.18.2
           run_install: true
       - name: test
-        run: echo ${{secrets.CLOUDFLARE_APIKEY}}
+        run: echo 'El secreto es ${{secrets.CLOUDFLARE_APIKEY}}'
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           apiKey: ${{secrets.CLOUDFLARE_APIKEY}} 
