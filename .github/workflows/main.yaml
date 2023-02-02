@@ -22,7 +22,6 @@ jobs:
         run: echo 'El secreto es ${{secrets.CLOUDFLARE_APIKEY}}'
       - uses: cloudflare/wrangler-action@2.0.0
         with:
-          apiKey: ${{secrets.CLOUDFLARE_APIKEY}} 
           email: nffigueroag@gmail.com
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: api
@@ -61,7 +60,6 @@ jobs:
           run_install: true
       - uses: cloudflare/wrangler-action@2.0.0
         with:
-          apiKey: ${{secrets.CLOUDFLARE_APIKEY}} 
           email: nffigueroag@gmail.com
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: api
