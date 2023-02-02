@@ -43,7 +43,8 @@ jobs:
           version: 7.18.2
           run_install: false
       - name: Install dependencies
-        run: pnpm install && pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
+      - run: pnpm install && pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
  
   deploy_iu:
     runs-on: ubuntu-latest
