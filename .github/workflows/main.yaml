@@ -18,9 +18,6 @@ jobs:
         with:
           version: 7.18.2
           run_install: true
-      - name: test
-        shell: bash
-        run: echo ${{ env.CF_APIKEY}} ${{ env.CLOUDFLARE_API_TOKEN}}
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           apiKey: ${{env.CF_APIKEY}} 
@@ -62,7 +59,9 @@ jobs:
           run_install: true
       - uses: cloudflare/wrangler-action@2.0.0
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
+          apiKey: ${{env.CF_APIKEY}} 
+          email: nffigueroag@gmail.com
+          apiToken: ${{ env.CF_API_TOKEN }}
           workingDirectory: api
           command: publish pages ./dist      
     
