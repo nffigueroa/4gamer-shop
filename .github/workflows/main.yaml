@@ -50,7 +50,6 @@ jobs:
     name: Deploy UI
     environment: Production
     steps:
-      - name: Deploying UI to Cloudflare
       - name: Deploy to Cloudflare Workers with Wrangler
         uses: cloudflare/wrangler-action@2.0.0
         with:
