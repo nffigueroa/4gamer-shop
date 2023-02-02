@@ -20,7 +20,7 @@ jobs:
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           email: nffigueroag@gmail.com
-          apiToken: ${{ secrets.CF_API_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: api
           command: publish --env production
   build_ui:
