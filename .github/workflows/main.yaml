@@ -43,9 +43,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build project 
-        run: pnpm build
-      - uses: cloudflare/wrangler-action@2.0.0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: api
-          command: npx wrangler pages publish ./dist
+        run: pnpm build && npx wrangler pages publish ./dist
