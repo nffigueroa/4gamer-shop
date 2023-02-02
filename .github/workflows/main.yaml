@@ -18,14 +18,13 @@ jobs:
         with:
           version: 7.18.2
           run_install: true
-      - name: test
-        run: echo 'El secreto es ${{secrets.CLOUDFLARE_APIKEY}}'
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: api
           command: publish
   build_ui:
+    needs: deploy_api
     if: github.repository.owner == 'nffigueroa'
     runs-on: ubuntu-22.04
     name: Build UI
@@ -44,6 +43,7 @@ jobs:
       - name: Build project 
         run: pnpm build
   deploy_ui:
+    needs: build_ui
     if: github.repository.owner == 'nffigueroa'
     runs-on: ubuntu-22.04
     name: UI deploying
