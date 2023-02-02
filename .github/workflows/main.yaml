@@ -45,21 +45,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build project 
-        run: pnpm build echo "build_id=$BUILD_ID"
-      - name: Tests
-        run: echo 'output $GITHUB_OUTPUT and $BUILD_ID'
- 
-  deploy_iu:
-    runs-on: ubuntu-latest
-    name: Deploy UI
-    environment: Production
-    steps:
-      - name: Directoreis names
-        run: 'echo ${{needs.build.outputs.build_id}}'
+        run: pnpm build
       - name: Deploy to Cloudflare Workers with Wrangler
         uses: cloudflare/pages-action@v1.3.0
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNTID }} 
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          directory: ../dist
+          directory: ./dist
           projectName: 4gaming-ui
+
