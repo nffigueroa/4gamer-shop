@@ -24,12 +24,14 @@ jobs:
  #         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
  #         workingDirectory: api
  #         command: publish
-  deploy_ui:
+  build_ui:
 #    needs: deploy_api
     timeout-minutes: 5
     runs-on: ubuntu-latest
     name: Build UI
     environment: Production
+    outputs:
+      build_id: ${{ steps.build_step.outputs.build_id }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -43,4 +45,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build project 
-        run: pnpm build && npx wrangler pages publish ./dist
+        run: |
+         pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+ 
+  deploy_iu:
+    runs-on: ubuntu-latest
+    name: Deploy UI
+    steps:
+      - name: Deploying UI to Cloudflare
+      - name: Deploy to Cloudflare Workers with Wrangler
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: dist
+          command: pages publish      
