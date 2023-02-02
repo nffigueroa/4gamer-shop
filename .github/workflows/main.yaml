@@ -30,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Build UI
     environment: Production
-    outputs:
-      build_id: ${{ steps.build_step.outputs.build_id }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
