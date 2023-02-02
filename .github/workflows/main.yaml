@@ -59,6 +59,7 @@ jobs:
       - name: Deploy to Cloudflare Workers with Wrangler
         uses: cloudflare/pages-action@v1.3.0
         with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNTID }} 
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: ./dist
+          directory: ./dist
           command: pages publish ./dist
