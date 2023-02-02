@@ -43,19 +43,17 @@ jobs:
           version: 7.18.2
           run_install: false
       - name: Install dependencies
-        run: pnpm install
-      - name: Build project 
-        run: |
-         pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+        run: pnpm install && pnpm build echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
  
   deploy_iu:
     runs-on: ubuntu-latest
     name: Deploy UI
+    environment: Production
     steps:
       - name: Deploying UI to Cloudflare
       - name: Deploy to Cloudflare Workers with Wrangler
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: dist
+          workingDirectory: ${{ needs.build.outputs.build_id }}
           command: pages publish      
