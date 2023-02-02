@@ -6,6 +6,7 @@ jobs:
   deploy_api:
     if: github.repository_owner == 'nffigueroa'
     runs-on: ubuntu-22.04
+    timeout-minutes: 5
     name: API deploying
     environment: production
     steps:
@@ -17,6 +18,9 @@ jobs:
         with:
           version: 7.18.2
           run_install: true
+      - name: test
+        shell: bash
+        run: echo ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           email: nffigueroag@gmail.com
